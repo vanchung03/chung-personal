@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -639,13 +639,13 @@ textarea {
    1. CẤU HÌNH SUPABASE
 ===================================== */
 
-const SUPABASE_URL = "DAN_PROJECT_URL_CUA_BAN";
-const SUPABASE_KEY = "DAN_PUBLISHABLE_KEY_CUA_BAN";
+const SUPABASE_URL = "https://sslayvnyyksudnebmanl.supabase.co/rest/v1/";
+const SUPABASE_KEY = "sb_publishable_QtUCNNEVrI7zQvhGvjzH4g_GbXIvSYK";
 
 const configured =
   SUPABASE_URL.startsWith("https://") &&
-  SUPABASE_KEY !== "DAN_PUBLISHABLE_KEY_CUA_BAN" &&
-  SUPABASE_URL !== "DAN_PROJECT_URL_CUA_BAN";
+  SUPABASE_KEY !== "sb_publishable_QtUCNNEVrI7zQvhGvjzH4g_GbXIvSYK" &&
+  SUPABASE_URL !== "https://sslayvnyyksudnebmanl.supabase.co/rest/v1/";
 
 const db = configured
   ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
@@ -1258,4 +1258,3 @@ init();
 </script>
 </body>
 </html>
-```
