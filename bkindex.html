@@ -1,1 +1,1265 @@
 
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f5f6fa">
+<title>Chung Personal</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+:root {
+  --bg:#f5f6fa;
+  --card:#fff;
+  --text:#17191f;
+  --muted:#858b98;
+  --blue:#087cff;
+  --line:#e9ebf1;
+}
+
+* {
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body {
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  transition:.3s;
+}
+
+body.dark {
+  --bg:#101116;
+  --card:#1b1d25;
+  --text:#f5f6fa;
+  --muted:#a1a6b3;
+  --line:#30323b;
+}
+
+.app {
+  max-width:600px;
+  margin:auto;
+  padding:18px 16px 110px;
+}
+
+header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:22px;
+}
+
+.logo {
+  font-size:18px;
+  font-weight:900;
+  letter-spacing:-1px;
+}
+
+.logo span {color:var(--blue)}
+
+button {
+  cursor:pointer;
+  border:none;
+  font:inherit;
+}
+
+.icon-btn {
+  width:42px;
+  height:42px;
+  border-radius:14px;
+  background:var(--card);
+  color:var(--text);
+  font-size:20px;
+}
+
+.page {display:none}
+.page.active {display:block;animation:fade .3s}
+
+@keyframes fade {
+  from {opacity:0;transform:translateY(8px)}
+  to {opacity:1;transform:none}
+}
+
+.hero {
+  padding:27px;
+  border-radius:25px;
+  color:white;
+  background:linear-gradient(135deg,#101b31,#1766bd);
+  margin-bottom:25px;
+}
+
+.hero small {
+  color:#a9d0ff;
+  letter-spacing:2px;
+  font-weight:bold;
+}
+
+.hero h1 {
+  font-size:36px;
+  margin:15px 0;
+  line-height:1.1;
+}
+
+.hero p {
+  color:#ffffffbb;
+  font-size:14px;
+  line-height:1.6;
+}
+
+.status {
+  display:inline-block;
+  margin-top:20px;
+  padding:9px 13px;
+  border:1px solid #ffffff40;
+  border-radius:30px;
+  font-size:12px;
+}
+
+.section-title {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:25px 2px 13px;
+}
+
+.section-title h2 {font-size:19px}
+
+.card {
+  background:var(--card);
+  border:1px solid var(--line);
+  padding:17px;
+  border-radius:20px;
+  margin-bottom:12px;
+}
+
+.grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:11px;
+}
+
+.tile {
+  text-align:left;
+  padding:17px;
+  border-radius:19px;
+  background:var(--card);
+  border:1px solid var(--line);
+  color:var(--text);
+}
+
+.tile .icon {
+  font-size:24px;
+  margin-bottom:13px;
+}
+
+.tile strong {
+  display:block;
+  font-size:14px;
+}
+
+.tile small {
+  display:block;
+  margin-top:5px;
+  color:var(--muted);
+}
+
+.avatar {
+  width:58px;
+  height:58px;
+  border-radius:18px;
+  background:#d8eaff;
+  color:#1456a0;
+  display:grid;
+  place-items:center;
+  font-size:23px;
+  font-weight:bold;
+  overflow:hidden;
+}
+
+.avatar img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.profile-row {
+  display:flex;
+  align-items:center;
+  gap:13px;
+}
+
+.profile-row p {
+  font-size:13px;
+  color:var(--muted);
+  margin-top:5px;
+}
+
+.info {
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:13px 0;
+  border-bottom:1px solid var(--line);
+  font-size:13px;
+}
+
+.info:last-child {border:0}
+.info span {color:var(--muted)}
+.info strong {text-align:right}
+
+.social-list {
+  display:grid;
+  gap:11px;
+}
+
+.social {
+  display:flex;
+  align-items:center;
+  gap:13px;
+  padding:14px;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:17px;
+  text-decoration:none;
+  color:var(--text);
+}
+
+.social-icon {
+  width:43px;
+  height:43px;
+  border-radius:14px;
+  background:var(--bg);
+  display:grid;
+  place-items:center;
+  font-weight:bold;
+  font-size:19px;
+}
+
+.social-info {flex:1;min-width:0}
+.social-info strong {font-size:14px}
+.social-info small {
+  display:block;
+  color:var(--muted);
+  margin-top:4px;
+  overflow-wrap:anywhere;
+}
+
+.gallery {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.photo {
+  background:var(--card);
+  border-radius:17px;
+  overflow:hidden;
+  border:1px solid var(--line);
+}
+
+.photo img {
+  width:100%;
+  height:145px;
+  object-fit:cover;
+}
+
+.photo p {
+  padding:10px;
+  font-size:12px;
+}
+
+input,textarea {
+  width:100%;
+  padding:14px;
+  background:var(--bg);
+  border:1px solid var(--line);
+  border-radius:12px;
+  color:var(--text);
+  outline:none;
+  font:inherit;
+  margin-bottom:10px;
+}
+
+textarea {
+  min-height:100px;
+  resize:vertical;
+}
+
+.btn {
+  width:100%;
+  padding:14px;
+  background:var(--blue);
+  color:white;
+  border-radius:12px;
+  font-weight:bold;
+  margin-top:4px;
+}
+
+.btn-danger {background:#e5484d}
+.btn-secondary {
+  background:var(--bg);
+  color:var(--text);
+  border:1px solid var(--line);
+}
+
+.bottom-nav {
+  position:fixed;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:100%;
+  max-width:600px;
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  padding:10px 5px 25px;
+  background:var(--card);
+  border-top:1px solid var(--line);
+  z-index:10;
+}
+
+.nav-btn {
+  background:none;
+  color:var(--muted);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:5px;
+  font-size:10px;
+}
+
+.nav-btn span {font-size:21px}
+.nav-btn.active {color:var(--blue)}
+
+.admin-box {margin-top:15px}
+.admin-box h3 {margin-bottom:12px}
+
+.admin-item {
+  padding:12px 0;
+  border-top:1px solid var(--line);
+  font-size:13px;
+  overflow-wrap:anywhere;
+}
+
+.admin-item button {
+  padding:7px 10px;
+  border-radius:8px;
+  margin:7px 5px 0 0;
+  background:var(--bg);
+  color:var(--text);
+}
+
+.hidden {display:none!important}
+
+.notice {
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.5;
+  margin-top:10px;
+}
+
+@media(min-width:600px) {
+  .bottom-nav {
+    bottom:15px;
+    border-radius:18px;
+    border:1px solid var(--line);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header>
+  <div class="logo">CHUNG<span>.</span>PERSONAL</div>
+
+  <div>
+    <button class="icon-btn" id="themeBtn">☾</button>
+    <button class="icon-btn" id="adminBtn">⌘</button>
+  </div>
+</header>
+
+<main>
+
+<!-- TRANG CHỦ -->
+<section class="page active" id="home">
+
+  <div class="hero">
+    <small>PERSONAL SPACE</small>
+    <h1>Xin chào,<br>mình là Chung.</h1>
+    <p>Một góc nhỏ lưu giữ hành trình, những kết nối và câu chuyện của riêng mình.</p>
+    <div class="status">● Yeosu, Hàn Quốc</div>
+  </div>
+
+  <div class="section-title">
+    <h2>Không gian của tôi</h2>
+  </div>
+
+  <div class="grid">
+    <button class="tile" data-go="profile">
+      <div class="icon">◉</div>
+      <strong>Giới thiệu</strong>
+      <small>Hành trình của Chung</small>
+    </button>
+
+    <button class="tile" data-go="social">
+      <div class="icon">↗</div>
+      <strong>Kết nối</strong>
+      <small>Mạng xã hội</small>
+    </button>
+
+    <button class="tile" data-go="gallery">
+      <div class="icon">▧</div>
+      <strong>Thư viện</strong>
+      <small>Khoảnh khắc</small>
+    </button>
+
+    <button class="tile" data-go="message">
+      <div class="icon">✉</div>
+      <strong>Lời nhắn</strong>
+      <small>Gửi lời chào</small>
+    </button>
+  </div>
+
+  <div class="section-title">
+    <h2>Một chút về mình</h2>
+  </div>
+
+  <div class="card profile-row">
+    <div class="avatar" id="homeAvatar">C</div>
+    <div>
+      <h3 id="homeName">Lường Văn Chung</h3>
+      <p id="homeBio">Tốt nghiệp CNTT năm 2025 · Đang trải nghiệm cuộc sống tại Hàn Quốc.</p>
+    </div>
+  </div>
+
+</section>
+
+<!-- GIỚI THIỆU -->
+<section class="page" id="profile">
+
+  <small style="color:var(--blue)">ABOUT ME</small>
+  <h1 style="margin:12px 0 20px">Hành trình của Chung.</h1>
+
+  <div class="card">
+    <div class="profile-row">
+      <div class="avatar" id="profileAvatar">C</div>
+      <div>
+        <h2 id="profileName">Lường Văn Chung</h2>
+        <p>Personal profile</p>
+      </div>
+    </div>
+
+    <div style="margin-top:20px">
+      <div class="info">
+        <span>Học vấn</span>
+        <strong>Đại học Công nghệ Đông Á</strong>
+      </div>
+
+      <div class="info">
+        <span>Chuyên ngành</span>
+        <strong>Công nghệ thông tin</strong>
+      </div>
+
+      <div class="info">
+        <span>Tốt nghiệp</span>
+        <strong>2025</strong>
+      </div>
+
+      <div class="info">
+        <span>Hiện tại</span>
+        <strong id="profileLocation">Yeosu, Hàn Quốc</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">
+    <h2>Giới thiệu</h2>
+  </div>
+
+  <div class="card">
+    <p id="profileBio">
+      Mình là Chung, tốt nghiệp ngành Công nghệ thông tin năm 2025.
+      Hiện tại mình đang sống và làm việc tại Hàn Quốc.
+    </p>
+  </div>
+
+</section>
+
+<!-- MẠNG XÃ HỘI -->
+<section class="page" id="social">
+
+  <small style="color:var(--blue)">LET'S CONNECT</small>
+  <h1 style="margin:12px 0">Kết nối với mình.</h1>
+
+  <div class="social-list" id="socialList">
+    <p>Đang tải dữ liệu...</p>
+  </div>
+
+</section>
+
+<!-- THƯ VIỆN -->
+<section class="page" id="gallery">
+
+  <small style="color:var(--blue)">MEMORIES</small>
+  <h1 style="margin:12px 0 20px">Thư viện khoảnh khắc.</h1>
+
+  <div class="gallery" id="galleryList"></div>
+
+</section>
+
+<!-- LỜI NHẮN -->
+<section class="page" id="message">
+
+  <small style="color:var(--blue)">SAY HELLO</small>
+  <h1 style="margin:12px 0">Để lại lời nhắn nhé.</h1>
+
+  <div class="card">
+    <form id="messageForm">
+      <input id="sender" placeholder="Tên của bạn" maxlength="100" required>
+      <textarea id="content" placeholder="Viết lời nhắn..." maxlength="2000" required></textarea>
+      <button class="btn">Gửi lời nhắn ↗</button>
+    </form>
+  </div>
+
+</section>
+
+<!-- ADMIN -->
+<section class="page" id="admin">
+
+  <small style="color:var(--blue)">PRIVATE AREA</small>
+  <h1 style="margin:12px 0 20px">Quản trị hệ thống.</h1>
+
+  <div class="card" id="loginPanel">
+    <h3>Đăng nhập Admin</h3>
+
+    <form id="loginForm">
+      <input type="email" id="adminEmail" placeholder="Email" required>
+      <input type="password" id="adminPassword" placeholder="Mật khẩu" required>
+      <button class="btn">Đăng nhập</button>
+    </form>
+
+    <p class="notice">Đăng nhập bằng tài khoản đã tạo trong Supabase Authentication và được cấp quyền Admin.</p>
+  </div>
+
+  <div id="adminPanel" class="hidden">
+
+    <!-- SỬA HỒ SƠ -->
+    <div class="card admin-box">
+      <h3>Thông tin cá nhân</h3>
+
+      <form id="profileForm">
+        <input id="editName" placeholder="Họ và tên" required>
+        <textarea id="editBio" placeholder="Giới thiệu"></textarea>
+        <input id="editLocation" placeholder="Địa điểm">
+        <input id="editAvatar" placeholder="URL ảnh đại diện">
+        <button class="btn">Lưu hồ sơ</button>
+      </form>
+    </div>
+
+    <!-- MẠNG XÃ HỘI -->
+    <div class="card admin-box">
+      <h3>Quản lý mạng xã hội</h3>
+
+      <form id="socialForm">
+        <input type="hidden" id="socialId">
+        <input id="socialPlatform" placeholder="Tên nền tảng" required>
+        <input id="socialUsername" placeholder="Tên tài khoản">
+        <input id="socialUrl" type="url" placeholder="Đường dẫn URL" required>
+        <input id="socialIcon" placeholder="Icon, ví dụ f, t, G">
+        <input id="socialOrder" type="number" placeholder="Thứ tự" value="0">
+
+        <button class="btn">Lưu liên kết</button>
+      </form>
+
+      <div id="adminSocialList"></div>
+    </div>
+
+    <!-- THƯ VIỆN -->
+    <div class="card admin-box">
+      <h3>Quản lý thư viện</h3>
+
+      <form id="galleryForm">
+        <input id="imageUrl" type="url" placeholder="URL hình ảnh" required>
+        <input id="imageDescription" placeholder="Mô tả ảnh">
+        <button class="btn">Thêm ảnh</button>
+      </form>
+
+      <div id="adminGalleryList"></div>
+    </div>
+
+    <!-- LỜI NHẮN -->
+    <div class="card admin-box">
+      <h3>Lời nhắn nhận được</h3>
+      <div id="adminMessageList"></div>
+    </div>
+
+    <button class="btn btn-secondary" id="refreshAdmin" type="button">Tải lại dữ liệu</button>
+    <button class="btn btn-danger" id="logoutBtn" type="button">Đăng xuất</button>
+
+  </div>
+</section>
+
+</main>
+</div>
+
+<!-- MENU -->
+<nav class="bottom-nav">
+
+  <button class="nav-btn active" data-page="home">
+    <span>⌂</span>Trang chủ
+  </button>
+
+  <button class="nav-btn" data-page="profile">
+    <span>◉</span>Giới thiệu
+  </button>
+
+  <button class="nav-btn" data-page="social">
+    <span>↗</span>Kết nối
+  </button>
+
+  <button class="nav-btn" data-page="gallery">
+    <span>▧</span>Thư viện
+  </button>
+
+  <button class="nav-btn" data-page="message">
+    <span>✉</span>Lời nhắn
+  </button>
+
+</nav>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+
+/* =====================================
+   1. CẤU HÌNH SUPABASE
+===================================== */
+
+const SUPABASE_URL =
+"https://sslayvnyyksudnebmanl.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_QtUCNNEVrI7zQvhGvjzH4g_GbXIvSYK";
+
+const configured =
+    SUPABASE_URL.startsWith("https://") &&
+    SUPABASE_KEY.startsWith("sb_publishable_");
+
+const db = configured
+    ? window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      )
+    : null;
+
+
+/* =====================================
+   2. HÀM TIỆN ÍCH
+===================================== */
+
+const $ = id => document.getElementById(id);
+
+function safe(value) {
+  return String(value ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#39;"
+  }[c]));
+}
+
+function notify(message) {
+  alert(message);
+}
+
+function checkDB() {
+  if (!db) {
+    notify("Bạn chưa cấu hình Supabase URL và Key!");
+    return false;
+  }
+  return true;
+}
+
+function setAvatar(element, url, name) {
+  if (url && /^https:\/\/\S+/i.test(url)) {
+    element.innerHTML =
+      `<img src="${safe(url)}" alt="Avatar" onerror="this.parentElement.textContent='C'">`;
+  } else {
+    element.textContent = (name || "C").charAt(0).toUpperCase();
+  }
+}
+
+
+/* =====================================
+   3. ĐIỀU HƯỚNG
+===================================== */
+
+function showPage(page) {
+  document.querySelectorAll(".page").forEach(el => {
+    el.classList.toggle("active", el.id === page);
+  });
+
+  document.querySelectorAll(".nav-btn").forEach(el => {
+    el.classList.toggle("active", el.dataset.page === page);
+  });
+
+  window.scrollTo(0,0);
+}
+
+document.querySelectorAll(".nav-btn").forEach(btn => {
+  btn.addEventListener("click", () => showPage(btn.dataset.page));
+});
+
+document.querySelectorAll("[data-go]").forEach(btn => {
+  btn.addEventListener("click", () => showPage(btn.dataset.go));
+});
+
+$("adminBtn").addEventListener("click", async () => {
+  showPage("admin");
+  await checkAdmin();
+});
+
+
+/* =====================================
+   4. DARK MODE
+===================================== */
+
+$("themeBtn").addEventListener("click", () => {
+  document.body.classList.toggle("dark");
+
+  $("themeBtn").textContent =
+    document.body.classList.contains("dark") ? "☀" : "☾";
+});
+
+
+/* =====================================
+   5. TẢI HỒ SƠ
+===================================== */
+
+async function loadProfile() {
+  if (!checkDB()) return;
+
+  const {data,error} = await db
+    .from("site_settings")
+    .select("*")
+    .eq("id",1)
+    .maybeSingle();
+
+  if (error) {
+    console.error(error);
+    notify("Lỗi tải hồ sơ: " + error.message);
+    return;
+  }
+
+  if (!data) return;
+
+  const name = data.full_name || "Lường Văn Chung";
+  const bio = data.bio || "";
+  const location = data.location || "";
+
+  $("homeName").textContent = name;
+  $("profileName").textContent = name;
+  $("homeBio").textContent = bio;
+  $("profileBio").textContent = bio;
+  $("profileLocation").textContent = location;
+
+  setAvatar($("homeAvatar"),data.avatar_url,name);
+  setAvatar($("profileAvatar"),data.avatar_url,name);
+
+  $("editName").value = data.full_name || "";
+  $("editBio").value = data.bio || "";
+  $("editLocation").value = data.location || "";
+  $("editAvatar").value = data.avatar_url || "";
+}
+
+
+/* =====================================
+   6. TẢI MẠNG XÃ HỘI
+===================================== */
+
+async function loadSocial() {
+  if (!checkDB()) return;
+
+  const {data,error} = await db
+    .from("social_links")
+    .select("*")
+    .order("sort_order");
+
+  if (error) {
+    console.error(error);
+    $("socialList").innerHTML =
+      `<p>${safe(error.message)}</p>`;
+    return;
+  }
+
+  if (!data.length) {
+    $("socialList").innerHTML =
+      "<p>Chưa có liên kết mạng xã hội.</p>";
+    return;
+  }
+
+  $("socialList").innerHTML = data.map(item => `
+    <a class="social"
+       href="${safe(item.url)}"
+       target="_blank"
+       rel="noopener noreferrer">
+
+      <div class="social-icon">
+        ${safe(item.icon || "↗")}
+      </div>
+
+      <div class="social-info">
+        <strong>${safe(item.platform)}</strong>
+        <small>${safe(item.username || item.url)}</small>
+      </div>
+
+      <span>↗</span>
+    </a>
+  `).join("");
+}
+
+
+/* =====================================
+   7. TẢI THƯ VIỆN
+===================================== */
+
+async function loadGallery() {
+  if (!checkDB()) return;
+
+  const {data,error} = await db
+    .from("gallery")
+    .select("*")
+    .order("created_at",{ascending:false});
+
+  if (error) {
+    console.error(error);
+    $("galleryList").innerHTML =
+      `<p>${safe(error.message)}</p>`;
+    return;
+  }
+
+  if (!data.length) {
+    $("galleryList").innerHTML =
+      "<p>Thư viện chưa có hình ảnh.</p>";
+    return;
+  }
+
+  $("galleryList").innerHTML = data.map(item => `
+    <div class="photo">
+      <img src="${safe(item.image_url)}"
+           alt="${safe(item.description || "Ảnh")}"
+           loading="lazy">
+      <p>${safe(item.description || "Khoảnh khắc")}</p>
+    </div>
+  `).join("");
+}
+
+
+/* =====================================
+   8. GỬI LỜI NHẮN
+===================================== */
+
+$("messageForm").addEventListener("submit",async e => {
+  e.preventDefault();
+
+  if (!checkDB()) return;
+
+  const name = $("sender").value.trim();
+  const content = $("content").value.trim();
+
+  const {error} = await db
+    .from("messages")
+    .insert({
+      sender_name:name,
+      content:content
+    });
+
+  if (error) {
+    notify("Gửi thất bại: " + error.message);
+    return;
+  }
+
+  notify("Đã gửi lời nhắn thành công!");
+  e.target.reset();
+});
+
+
+/* =====================================
+   9. ĐĂNG NHẬP ADMIN
+===================================== */
+
+async function checkAdmin() {
+  if (!checkDB()) return false;
+
+  const {data:{user}} = await db.auth.getUser();
+
+  if (!user) {
+    $("loginPanel").classList.remove("hidden");
+    $("adminPanel").classList.add("hidden");
+    return false;
+  }
+
+  const {data,error} = await db
+    .from("admin_users")
+    .select("user_id")
+    .eq("user_id",user.id)
+    .maybeSingle();
+
+  if (error || !data) {
+    await db.auth.signOut();
+    $("loginPanel").classList.remove("hidden");
+    $("adminPanel").classList.add("hidden");
+    notify("Tài khoản chưa được cấp quyền Admin!");
+    return false;
+  }
+
+  $("loginPanel").classList.add("hidden");
+  $("adminPanel").classList.remove("hidden");
+
+  await loadAdminData();
+  return true;
+}
+
+$("loginForm").addEventListener("submit",async e => {
+  e.preventDefault();
+
+  if (!checkDB()) return;
+
+  const email = $("adminEmail").value.trim();
+  const password = $("adminPassword").value;
+
+  const {error} = await db.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (error) {
+    notify("Đăng nhập thất bại: " + error.message);
+    return;
+  }
+
+  await checkAdmin();
+});
+
+
+/* =====================================
+   10. LƯU HỒ SƠ
+===================================== */
+
+$("profileForm").addEventListener("submit",async e => {
+  e.preventDefault();
+
+  if (!checkDB()) return;
+
+  const record = {
+    id:1,
+    full_name:$("editName").value.trim(),
+    bio:$("editBio").value.trim(),
+    location:$("editLocation").value.trim(),
+    avatar_url:$("editAvatar").value.trim() || null,
+    updated_at:new Date().toISOString()
+  };
+
+  const {error} = await db
+    .from("site_settings")
+    .upsert(record,{onConflict:"id"});
+
+  if (error) {
+    notify("Lỗi: " + error.message);
+    return;
+  }
+
+  notify("Đã cập nhật hồ sơ!");
+  await loadProfile();
+});
+
+
+/* =====================================
+   11. QUẢN LÝ MẠNG XÃ HỘI
+===================================== */
+
+$("socialForm").addEventListener("submit",async e => {
+  e.preventDefault();
+
+  if (!checkDB()) return;
+
+  const id = $("socialId").value;
+
+  const record = {
+    platform:$("socialPlatform").value.trim(),
+    username:$("socialUsername").value.trim(),
+    url:$("socialUrl").value.trim(),
+    icon:$("socialIcon").value.trim(),
+    sort_order:Number($("socialOrder").value || 0)
+  };
+
+  let result;
+
+  if (id) {
+    result = await db
+      .from("social_links")
+      .update(record)
+      .eq("id",id);
+  } else {
+    result = await db
+      .from("social_links")
+      .insert(record);
+  }
+
+  if (result.error) {
+    notify("Lỗi: " + result.error.message);
+    return;
+  }
+
+  notify("Đã lưu liên kết!");
+
+  e.target.reset();
+  $("socialId").value = "";
+  $("socialOrder").value = "0";
+
+  await loadAdminData();
+});
+
+
+/* =====================================
+   12. SỬA / XÓA MẠNG XÃ HỘI
+===================================== */
+
+async function editSocial(id) {
+  const {data,error} = await db
+    .from("social_links")
+    .select("*")
+    .eq("id",id)
+    .single();
+
+  if (error) {
+    notify(error.message);
+    return;
+  }
+
+  $("socialId").value = data.id;
+  $("socialPlatform").value = data.platform || "";
+  $("socialUsername").value = data.username || "";
+  $("socialUrl").value = data.url || "";
+  $("socialIcon").value = data.icon || "";
+  $("socialOrder").value = data.sort_order ?? 0;
+
+  $("socialPlatform").scrollIntoView({
+    behavior:"smooth",
+    block:"center"
+  });
+}
+
+async function deleteSocial(id) {
+  if (!confirm("Bạn muốn xóa liên kết này?")) return;
+
+  const {error} = await db
+    .from("social_links")
+    .delete()
+    .eq("id",id);
+
+  if (error) {
+    notify(error.message);
+    return;
+  }
+
+  notify("Đã xóa!");
+  await loadAdminData();
+}
+
+
+/* =====================================
+   13. QUẢN LÝ THƯ VIỆN
+===================================== */
+
+$("galleryForm").addEventListener("submit",async e => {
+  e.preventDefault();
+
+  if (!checkDB()) return;
+
+  const {error} = await db
+    .from("gallery")
+    .insert({
+      image_url:$("imageUrl").value.trim(),
+      description:$("imageDescription").value.trim()
+    });
+
+  if (error) {
+    notify("Lỗi: " + error.message);
+    return;
+  }
+
+  notify("Đã thêm ảnh!");
+  e.target.reset();
+
+  await loadAdminData();
+});
+
+async function deletePhoto(id) {
+  if (!confirm("Xóa hình ảnh này?")) return;
+
+  const {error} = await db
+    .from("gallery")
+    .delete()
+    .eq("id",id);
+
+  if (error) {
+    notify(error.message);
+    return;
+  }
+
+  notify("Đã xóa ảnh!");
+  await loadAdminData();
+}
+
+
+/* =====================================
+   14. QUẢN LÝ LỜI NHẮN
+===================================== */
+
+async function loadMessages() {
+  const {data,error} = await db
+    .from("messages")
+    .select("*")
+    .order("created_at",{ascending:false})
+    .limit(100);
+
+  if (error) {
+    $("adminMessageList").textContent = error.message;
+    return;
+  }
+
+  $("adminMessageList").innerHTML = data.length
+    ? data.map(m => `
+      <div class="admin-item">
+        <strong>${safe(m.sender_name)}</strong>
+        <p>${safe(m.content)}</p>
+        <small>${safe(m.created_at || "")}</small>
+        <br>
+        <button type="button" onclick="deleteMessage('${safe(m.id)}')">
+          Xóa lời nhắn
+        </button>
+      </div>
+    `).join("")
+    : "<p>Chưa có lời nhắn.</p>";
+}
+
+async function deleteMessage(id) {
+  if (!confirm("Xóa lời nhắn này?")) return;
+
+  const {error} = await db
+    .from("messages")
+    .delete()
+    .eq("id",id);
+
+  if (error) {
+    notify(error.message);
+    return;
+  }
+
+  notify("Đã xóa lời nhắn!");
+  await loadMessages();
+}
+
+
+/* =====================================
+   15. TẢI DỮ LIỆU ADMIN
+===================================== */
+
+async function loadAdminData() {
+  await Promise.all([
+    loadProfile(),
+    loadSocial(),
+    loadGallery(),
+    loadMessages()
+  ]);
+
+  const {data:socials} = await db
+    .from("social_links")
+    .select("*")
+    .order("sort_order");
+
+  $("adminSocialList").innerHTML = socials?.length
+    ? socials.map(s => `
+      <div class="admin-item">
+        <strong>${safe(s.platform)}</strong>
+        <p>${safe(s.url)}</p>
+        <button type="button" onclick="editSocial('${safe(s.id)}')">Sửa</button>
+        <button type="button" onclick="deleteSocial('${safe(s.id)}')">Xóa</button>
+      </div>
+    `).join("")
+    : "<p>Chưa có liên kết.</p>";
+
+  const {data:photos} = await db
+    .from("gallery")
+    .select("*")
+    .order("created_at",{ascending:false});
+
+  $("adminGalleryList").innerHTML = photos?.length
+    ? photos.map(p => `
+      <div class="admin-item">
+        <strong>${safe(p.description || "Hình ảnh")}</strong>
+        <button type="button" onclick="deletePhoto('${safe(p.id)}')">Xóa ảnh</button>
+      </div>
+    `).join("")
+    : "<p>Chưa có hình ảnh.</p>";
+}
+
+
+/* =====================================
+   16. ĐĂNG XUẤT
+===================================== */
+
+$("logoutBtn").addEventListener("click",async () => {
+  const {error} = await db.auth.signOut();
+
+  if (error) {
+    notify(error.message);
+    return;
+  }
+
+  $("adminPanel").classList.add("hidden");
+  $("loginPanel").classList.remove("hidden");
+
+  notify("Đã đăng xuất!");
+});
+
+$("refreshAdmin").addEventListener("click",loadAdminData);
+
+
+/* =====================================
+   17. KHỞI ĐỘNG
+===================================== */
+
+async function init() {
+
+  if (!configured) {
+    $("socialList").innerHTML =
+      "<p>Hãy cấu hình Supabase URL và Key ở cuối code.</p>";
+    $("galleryList").innerHTML =
+      "<p>Chưa cấu hình Supabase.</p>";
+    return;
+  }
+
+  await Promise.all([
+    loadProfile(),
+    loadSocial(),
+    loadGallery()
+  ]);
+
+  const {data:{session}} = await db.auth.getSession();
+
+  if (session) await checkAdmin();
+
+}
+
+init();
+
+</script>
+</body>
+</html>
