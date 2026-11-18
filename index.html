@@ -3,264 +3,210 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#fff3f8">
+<meta name="theme-color" content="#0b0a1f">
 <title>Chung Personal</title>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{
-  --bg:#fff3f8; --bg2:#e6f6ff; --card:#fff; --text:#2a2150; --muted:#7a6f9e;
-  --ink:#2a2150; --pink:#ff7eb3; --sky:#6cc8ff; --lemon:#ffd86b; --lav:#b9a6ff;
-  --shadow:4px 4px 0 var(--ink);
-  --h:'Baloo 2','Nunito',system-ui,sans-serif; --b:'Nunito',system-ui,sans-serif;
+  --bg1:#0b0a1f;--bg2:#2a1450;--glass:rgba(255,255,255,.07);--edge:rgba(255,255,255,.16);
+  --text:#f4f1ff;--muted:#a9a3c9;--pink:#ff4fa3;--cyan:#3df2ff;--vio:#8a6bff;--moon:#ffe9a8;
+  --f:'Be Vietnam Pro',system-ui,sans-serif;
 }
-body.dark{
-  --bg:#15112e; --bg2:#231a4a; --card:#241d4d; --text:#fff3fb; --muted:#b7accf;
-  --ink:#ff9ccc; --shadow:4px 4px 0 #0b0820;
-}
+body.light{--bg1:#fff1f6;--bg2:#cfe9ff;--glass:rgba(255,255,255,.62);--edge:rgba(60,40,120,.16);--text:#241a4a;--muted:#6b6290;--moon:#ffc94d}
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{
-  font-family:var(--b);color:var(--text);min-height:100vh;
-  background:
-    radial-gradient(circle at 15% 0%,#ffd0e5 0,transparent 40%),
-    radial-gradient(circle at 90% 20%,#c5ebff 0,transparent 38%),
-    linear-gradient(180deg,var(--bg),var(--bg2));
-  background-attachment:fixed;transition:background .4s,color .4s;
-}
-body.dark{background:
-  radial-gradient(circle at 15% 0%,#4b2a7a 0,transparent 40%),
-  radial-gradient(circle at 90% 20%,#1d4f8a 0,transparent 38%),
-  linear-gradient(180deg,var(--bg),var(--bg2));background-attachment:fixed}
-body::before{ /* halftone */
-  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.35;
-  background-image:radial-gradient(var(--lav) 1.2px,transparent 1.4px);background-size:16px 16px;
-  -webkit-mask-image:linear-gradient(180deg,#000,transparent 55%);mask-image:linear-gradient(180deg,#000,transparent 55%);
-}
-#petals{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
-.app{position:relative;z-index:2;max-width:620px;margin:auto;padding:calc(16px + env(safe-area-inset-top)) 16px 130px}
-button{cursor:pointer;border:none;font:inherit;color:inherit}
-:focus-visible{outline:3px solid var(--sky);outline-offset:3px}
-
-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
-.logo{font-family:var(--h);font-weight:800;font-size:22px;letter-spacing:.5px;
-  background:var(--card);border:3px solid var(--ink);border-radius:14px;padding:2px 12px;box-shadow:var(--shadow);transform:rotate(-2deg)}
-.logo span{color:var(--pink)}
-header>div{display:flex;gap:10px}
-.icon-btn{width:44px;height:44px;border-radius:14px;background:var(--lemon);color:#2a2150;font-size:20px;
-  border:3px solid var(--ink);box-shadow:var(--shadow);transition:transform .15s,box-shadow .15s}
-.icon-btn:nth-child(2){background:var(--sky)}
-.icon-btn:hover{transform:translate(-2px,-2px) rotate(-6deg);box-shadow:6px 6px 0 var(--ink)}
-.icon-btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+body{font-family:var(--f);color:var(--text);min-height:100vh;background:linear-gradient(180deg,var(--bg1),var(--bg2) 85%);background-attachment:fixed;transition:.4s}
+button{cursor:pointer;border:none;font:inherit;color:inherit;background:none}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+#sky{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.moon{position:fixed;top:70px;right:8%;width:90px;height:90px;border-radius:50%;z-index:0;background:radial-gradient(circle at 35% 35%,#fff,var(--moon) 60%);
+  box-shadow:0 0 60px 18px color-mix(in srgb,var(--moon) 45%,transparent);animation:float 7s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(12px)}}
+.city{position:fixed;left:0;right:0;bottom:0;height:34vh;min-height:190px;z-index:0;pointer-events:none;opacity:.9}
+.city svg{width:100%;height:100%}
+.app{position:relative;z-index:2;max-width:620px;margin:auto;padding:calc(14px + env(safe-area-inset-top)) 16px 130px}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;padding:8px 8px 8px 16px;border-radius:20px;
+  background:var(--glass);border:1px solid var(--edge);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.logo{font-weight:900;font-size:17px;letter-spacing:.5px}
+.logo span{color:var(--pink);text-shadow:0 0 12px var(--pink)}
+header div{display:flex;gap:8px}
+.ib{width:40px;height:40px;border-radius:13px;background:var(--glass);border:1px solid var(--edge);font-size:17px;transition:.2s}
+.ib:hover{border-color:var(--cyan);box-shadow:0 0 14px var(--cyan)}
+.ib.on{background:linear-gradient(135deg,var(--pink),var(--vio));border-color:transparent;animation:beat 1.2s ease-in-out infinite}
+@keyframes beat{50%{transform:scale(1.1)}}
 
 .page{display:none}
-.page.active{display:block;animation:pop .45s cubic-bezier(.34,1.56,.64,1)}
-@keyframes pop{from{opacity:0;transform:translateY(18px) scale(.96)}to{opacity:1;transform:none}}
+.page.active{display:block;animation:in .5s cubic-bezier(.2,.8,.2,1)}
+@keyframes in{from{opacity:0;transform:translateY(24px);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+.glass,.card{background:var(--glass);border:1px solid var(--edge);border-radius:24px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.card{padding:18px;margin-bottom:14px}
+.kicker{font-size:12px;font-weight:800;color:var(--cyan);letter-spacing:3px}
+.page-title{font-size:32px;font-weight:900;line-height:1.15;margin:8px 0 20px;background:linear-gradient(90deg,var(--pink),var(--vio),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+h2.sec{font-size:17px;font-weight:800;margin:24px 2px 12px;display:flex;align-items:center;gap:10px}
+h2.sec::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--edge),transparent)}
 
-.tag{display:inline-block;font-family:var(--h);font-weight:800;font-size:13px;color:#fff;background:var(--pink);
-  border:2.5px solid var(--ink);border-radius:10px;padding:1px 12px;box-shadow:3px 3px 0 var(--ink);transform:rotate(-2deg)}
-.page-title{font-family:var(--h);font-weight:800;font-size:34px;line-height:1.1;margin:16px 0 20px;
-  -webkit-text-stroke:0;text-shadow:3px 3px 0 var(--lav)}
-body.dark .page-title{text-shadow:3px 3px 0 #5b3fa8}
+.hero{padding:30px 24px;margin-bottom:8px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;width:240px;height:240px;right:-70px;top:-70px;border-radius:50%;background:radial-gradient(var(--pink),transparent 68%);opacity:.5;animation:float 6s ease-in-out infinite}
+.hero h1{font-size:44px;font-weight:900;line-height:1.05;margin:12px 0}
+.hero h1 em{font-style:normal;color:var(--cyan);text-shadow:0 0 18px var(--cyan),0 0 40px var(--vio);animation:flick 5s infinite}
+@keyframes flick{0%,92%,96%,100%{opacity:1}94%,98%{opacity:.4}}
+.hero p{color:var(--muted);line-height:1.7;max-width:34ch;position:relative}
+.pill{display:inline-flex;align-items:center;gap:8px;margin-top:18px;padding:8px 15px;border-radius:30px;border:1px solid var(--cyan);font-size:13px;font-weight:600;color:var(--cyan);position:relative}
+.pill i{width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan);animation:blink 1.6s infinite}
+@keyframes blink{50%{opacity:.25}}
 
-/* HERO = title card */
-.hero{position:relative;overflow:hidden;padding:28px 24px 26px;border-radius:26px;color:#fff;margin-bottom:26px;
-  background:linear-gradient(135deg,#ff7eb3,#a47bff 55%,#4aa8ff);border:3px solid var(--ink);box-shadow:6px 6px 0 var(--ink)}
-.hero::before{content:"";position:absolute;inset:-50%;opacity:.28;
-  background:repeating-conic-gradient(from 0deg at 70% 40%,#fff 0 2deg,transparent 2deg 9deg);animation:spin 60s linear infinite}
-.hero>*{position:relative}
-@keyframes spin{to{transform:rotate(360deg)}}
-.hero small{font-family:var(--h);font-weight:800;letter-spacing:2px;background:#fff;color:var(--ink);padding:2px 10px;border-radius:8px;border:2px solid var(--ink)}
-.hero h1{font-family:var(--h);font-weight:800;font-size:40px;line-height:1.05;margin:16px 0 12px;text-shadow:3px 3px 0 var(--ink)}
-.hero h1 b{display:inline-block;animation:wave 2.4s ease-in-out infinite;transform-origin:70% 80%}
-@keyframes wave{0%,60%,100%{transform:rotate(0)}10%,30%{transform:rotate(16deg)}20%,40%{transform:rotate(-10deg)}}
-.hero p{font-weight:700;font-size:14px;line-height:1.6;max-width:36ch}
-.status{display:inline-flex;align-items:center;gap:8px;margin-top:18px;padding:7px 14px;border-radius:30px;background:#fff;color:var(--ink);
-  font-weight:800;font-size:13px;border:2.5px solid var(--ink)}
-.status i{width:10px;height:10px;border-radius:50%;background:#34d27b;box-shadow:0 0 0 0 #34d27b;animation:ping 1.8s infinite}
-@keyframes ping{70%{box-shadow:0 0 0 9px #34d27b00}100%{box-shadow:0 0 0 0 #34d27b00}}
-.spark{position:absolute;right:18px;top:14px;font-size:30px;animation:twinkle 2s ease-in-out infinite}
-.spark.s2{right:60px;top:64px;font-size:18px;animation-delay:.7s}
-@keyframes twinkle{50%{transform:scale(1.35) rotate(20deg);opacity:.7}}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tile{text-align:left;padding:18px;border-radius:22px;background:var(--glass);border:1px solid var(--edge);transition:.25s;position:relative;overflow:hidden}
+.tile::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,var(--pink),var(--cyan));opacity:0;transition:.25s}
+.tile:hover{transform:translateY(-5px);border-color:var(--pink);box-shadow:0 10px 30px -8px var(--pink)}
+.tile:hover::before{opacity:.12}
+.tile *{position:relative}
+.tile .icon{font-size:26px;display:block;margin-bottom:12px}
+.tile strong{display:block;font-size:15px;font-weight:800}
+.tile small{color:var(--muted);font-size:12px}
 
-.section-title{margin:26px 2px 14px}
-.section-title h2{font-family:var(--h);font-weight:800;font-size:21px;display:inline-block;
-  background:linear-gradient(transparent 58%,var(--lemon) 58%);padding:0 4px}
-body.dark .section-title h2{background:linear-gradient(transparent 58%,#6b3fb0 58%)}
-
-.card{background:var(--card);border:3px solid var(--ink);padding:18px;border-radius:22px;margin-bottom:14px;box-shadow:var(--shadow)}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.tile{text-align:left;padding:18px 16px;border-radius:20px;background:var(--card);border:3px solid var(--ink);box-shadow:var(--shadow);
-  transition:transform .2s cubic-bezier(.34,1.56,.64,1),box-shadow .2s}
-.tile:nth-child(1){background:#ffe1ee}.tile:nth-child(2){background:#d9f1ff}
-.tile:nth-child(3){background:#fff1c2}.tile:nth-child(4){background:#e7deff}
-body.dark .tile{background:var(--card)}
-.tile:hover{transform:translate(-3px,-3px) rotate(-1.5deg);box-shadow:7px 7px 0 var(--ink)}
-.tile:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
-.tile .icon{font-size:26px;margin-bottom:10px;display:inline-block;transition:transform .3s}
-.tile:hover .icon{transform:scale(1.25) rotate(12deg)}
-.tile strong{display:block;font-family:var(--h);font-size:18px;color:var(--ink)}
-.tile small{display:block;margin-top:2px;color:#6d6392;font-weight:700}
-body.dark .tile strong{color:var(--text)}body.dark .tile small{color:var(--muted)}
-
-.avatar{width:66px;height:66px;flex:none;border-radius:50%;display:grid;place-items:center;font-family:var(--h);font-size:28px;font-weight:800;
-  color:#fff;overflow:hidden;border:3px solid var(--ink);background:linear-gradient(135deg,var(--pink),var(--sky));
-  box-shadow:0 0 0 4px var(--lemon),0 0 0 7px var(--ink)}
+.avatar{width:64px;height:64px;flex:none;border-radius:50%;display:grid;place-items:center;font-size:26px;font-weight:900;overflow:hidden;
+  background:linear-gradient(135deg,var(--pink),var(--vio));box-shadow:0 0 0 3px var(--bg1),0 0 0 5px var(--cyan),0 0 22px var(--cyan);color:#fff}
 .avatar img{width:100%;height:100%;object-fit:cover}
-.profile-row{display:flex;align-items:center;gap:20px}
-.profile-row h2,.profile-row h3{font-family:var(--h);font-weight:800}
-.profile-row p{font-size:13px;color:var(--muted);margin-top:4px;font-weight:700;line-height:1.5}
-/* speech bubble */
-.bubble{position:relative;margin-top:18px}
-.bubble::before{content:"";position:absolute;top:-10px;left:28px;width:16px;height:16px;background:var(--card);
-  border-left:3px solid var(--ink);border-top:3px solid var(--ink);transform:rotate(45deg)}
-.card p#profileBio{line-height:1.7;font-weight:600}
+.row{display:flex;align-items:center;gap:18px}
+.row p{font-size:13px;color:var(--muted);margin-top:4px;line-height:1.55}
+.info{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid var(--edge);font-size:14px}
+.info:last-child{border:0}.info span{color:var(--muted)}.info strong{text-align:right}
 
-.info{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:2.5px dashed var(--lav);font-size:14px}
-.info:last-child{border:0}.info span{color:var(--muted);font-weight:700}.info strong{text-align:right}
+.social-list{display:grid;gap:12px}
+.social{display:flex;align-items:center;gap:14px;padding:14px;border-radius:20px;background:var(--glass);border:1px solid var(--edge);color:var(--text);text-decoration:none;transition:.25s;backdrop-filter:blur(12px)}
+.social:hover{transform:translateX(8px);border-color:var(--cyan);box-shadow:-6px 0 0 var(--cyan)}
+.s-ic{width:44px;height:44px;flex:none;border-radius:14px;display:grid;place-items:center;font-weight:900;font-size:18px;background:linear-gradient(135deg,var(--vio),var(--pink));color:#fff}
+.s-info{flex:1;min-width:0}.s-info small{display:block;color:var(--muted);overflow-wrap:anywhere}
 
-.social-list{display:grid;gap:14px}
-.social{display:flex;align-items:center;gap:14px;padding:14px;background:var(--card);border:3px solid var(--ink);border-radius:20px;
-  text-decoration:none;color:var(--text);box-shadow:var(--shadow);transition:transform .2s cubic-bezier(.34,1.56,.64,1)}
-.social:hover{transform:translateX(6px) rotate(.6deg)}
-.social-icon{width:46px;height:46px;flex:none;border-radius:50%;display:grid;place-items:center;font-family:var(--h);font-weight:800;font-size:20px;
-  background:var(--pink);color:#fff;border:3px solid var(--ink)}
-.social:nth-child(3n+2) .social-icon{background:var(--sky)}
-.social:nth-child(3n) .social-icon{background:var(--lemon);color:var(--ink)}
-.social-info{flex:1;min-width:0}.social-info strong{font-family:var(--h);font-size:17px}
-.social-info small{display:block;color:var(--muted);font-weight:700;overflow-wrap:anywhere}
+.gallery{columns:2;column-gap:12px}
+.photo{break-inside:avoid;margin-bottom:12px;border-radius:18px;overflow:hidden;position:relative;border:1px solid var(--edge)}
+.photo img{width:100%;display:block;transition:transform .5s}
+.photo:hover img{transform:scale(1.08)}
+.photo p{position:absolute;left:0;right:0;bottom:0;padding:26px 12px 10px;font-size:12px;font-weight:600;color:#fff;background:linear-gradient(transparent,rgba(8,5,30,.85))}
 
-.gallery{columns:2;column-gap:14px}
-.photo{break-inside:avoid;margin-bottom:14px;background:#fff;border:3px solid var(--ink);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);
-  padding:7px 7px 0;transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
-.photo:nth-child(odd){transform:rotate(-1.6deg)}.photo:nth-child(even){transform:rotate(1.4deg)}
-.photo:hover{transform:rotate(0) scale(1.05);z-index:3;position:relative}
-.photo img{width:100%;display:block;border-radius:9px;border:2px solid var(--ink)}
-.photo p{padding:9px 4px 10px;font-size:13px;font-weight:800;color:#2a2150}
-
-input,textarea{width:100%;padding:13px 15px;background:var(--bg);border:3px solid var(--ink);border-radius:14px;color:var(--text);
-  outline:none;font:inherit;font-weight:700;margin-bottom:12px;transition:box-shadow .2s,transform .2s}
-input:focus,textarea:focus{box-shadow:4px 4px 0 var(--sky);transform:translate(-2px,-2px)}
+input,textarea{width:100%;padding:13px 15px;background:rgba(255,255,255,.06);border:1px solid var(--edge);border-radius:14px;color:var(--text);font:inherit;margin-bottom:10px;outline:none;transition:.2s}
+input:focus,textarea:focus{border-color:var(--cyan);box-shadow:0 0 0 3px color-mix(in srgb,var(--cyan) 25%,transparent)}
 textarea{min-height:110px;resize:vertical}
-.btn{width:100%;padding:14px;background:var(--pink);color:#fff;border-radius:16px;font-family:var(--h);font-weight:800;font-size:17px;
-  margin-top:4px;border:3px solid var(--ink);box-shadow:var(--shadow);text-shadow:1px 1px 0 var(--ink);transition:transform .15s,box-shadow .15s}
-.btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
-.btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
-.btn-danger{background:#ff5d6c}
-.btn-secondary{background:var(--card);color:var(--text);text-shadow:none;margin-bottom:12px}
+.btn{width:100%;padding:14px;border-radius:14px;font-weight:800;color:#fff;background:linear-gradient(90deg,var(--pink),var(--vio));margin-top:2px;transition:.2s;box-shadow:0 8px 24px -8px var(--pink)}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.1)}
+.btn-danger{background:linear-gradient(90deg,#ff5d6c,#c2185b)}
+.btn-sec{background:var(--glass);border:1px solid var(--edge);box-shadow:none;margin-bottom:10px}
 
-.bottom-nav{position:fixed;bottom:calc(12px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:calc(100% - 24px);max-width:596px;
-  display:grid;grid-template-columns:repeat(5,1fr);padding:8px 6px;background:var(--card);border:3px solid var(--ink);border-radius:26px;
-  box-shadow:5px 5px 0 var(--ink);z-index:10}
-.nav-btn{background:none;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;font-weight:800;
-  padding:6px 0;border-radius:18px;transition:background .2s,color .2s}
-.nav-btn span{font-size:21px;transition:transform .3s cubic-bezier(.34,1.8,.64,1)}
-.nav-btn.active{background:var(--lemon);color:#2a2150;border:2.5px solid var(--ink);padding:4px 0}
-.nav-btn.active span{transform:translateY(-3px) scale(1.2)}
+.nav{position:fixed;bottom:calc(12px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:calc(100% - 24px);max-width:596px;z-index:10;
+  display:grid;grid-template-columns:repeat(5,1fr);padding:7px;border-radius:26px;background:var(--glass);border:1px solid var(--edge);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.nb{display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 0;border-radius:19px;font-size:10px;font-weight:600;color:var(--muted);transition:.25s}
+.nb span{font-size:20px}
+.nb.active{color:#fff;background:linear-gradient(135deg,var(--pink),var(--vio));box-shadow:0 6px 20px -4px var(--pink)}
 
-.admin-box h3{font-family:var(--h);font-size:19px;margin-bottom:12px}
-.admin-item{padding:12px 0;border-top:2.5px dashed var(--lav);font-size:13px;overflow-wrap:anywhere}
-.admin-item button{padding:6px 12px;border-radius:10px;margin:8px 6px 0 0;background:var(--lemon);color:#2a2150;font-weight:800;border:2.5px solid var(--ink)}
+/* ADMIN */
+.a-item{padding:12px 0;border-top:1px solid var(--edge);font-size:13px;overflow-wrap:anywhere}
+.a-item p{margin:4px 0;line-height:1.5}.a-item small{color:var(--muted)}
+.a-item button{padding:6px 12px;border-radius:10px;margin:8px 6px 0 0;background:rgba(255,255,255,.1);border:1px solid var(--edge);font-weight:600}
+.a-item button:hover{border-color:var(--pink)}
+.badge{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 7px;border-radius:11px;background:var(--pink);color:#fff;font-size:12px;font-weight:800}
+.menu{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:6px 0 14px}
+.mb{padding:12px 6px;border-radius:16px;background:var(--glass);border:1px solid var(--edge);font-size:13px;font-weight:700;transition:.2s;display:flex;flex-direction:column;gap:4px;align-items:center}
+.mb span{font-size:20px}
+.mb.active{border-color:var(--cyan);color:var(--cyan);box-shadow:0 0 18px -4px var(--cyan);background:rgba(61,242,255,.1)}
+.panel{display:none}.panel.active{display:block;animation:in .4s}
+.hint{text-align:center;color:var(--muted);font-size:13px;padding:10px 0 18px}
 .hidden{display:none!important}
-.notice{color:var(--muted);font-size:12px;line-height:1.5;margin-top:10px;font-weight:700}
-#toast{position:fixed;top:calc(16px + env(safe-area-inset-top));left:50%;transform:translate(-50%,-140%);z-index:50;max-width:88vw;
-  background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:30px;font-weight:800;font-size:14px;transition:transform .4s cubic-bezier(.34,1.56,.64,1)}
+.notice{color:var(--muted);font-size:12px;line-height:1.5;margin-top:10px}
+#toast{position:fixed;top:calc(14px + env(safe-area-inset-top));left:50%;transform:translate(-50%,-150%);z-index:50;max-width:88vw;padding:11px 20px;border-radius:30px;
+  background:linear-gradient(90deg,var(--pink),var(--vio));color:#fff;font-weight:700;font-size:14px;transition:transform .4s cubic-bezier(.34,1.56,.64,1)}
 #toast.show{transform:translate(-50%,0)}
-@media(prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}#petals{display:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
-<canvas id="petals" aria-hidden="true"></canvas>
-<div id="toast" role="status"></div>
+<canvas id="sky" aria-hidden="true"></canvas>
+<div class="moon" aria-hidden="true"></div>
+<div class="city" aria-hidden="true">
+<svg viewBox="0 0 600 200" preserveAspectRatio="none">
+<defs><pattern id="w" width="8" height="10" patternUnits="userSpaceOnUse"><rect x="2" y="3" width="3" height="4" fill="#ffd36b" opacity=".75"/></pattern></defs>
+<g fill="#120d2e" opacity=".95">
+<rect x="0" y="110" width="50" height="90"/><rect x="45" y="70" width="40" height="130"/><rect x="90" y="120" width="55" height="80"/>
+<rect x="140" y="50" width="36" height="150"/><rect x="180" y="100" width="60" height="100"/><rect x="245" y="80" width="42" height="120"/>
+<rect x="290" y="125" width="50" height="75"/><rect x="335" y="40" width="38" height="160"/><rect x="378" y="95" width="56" height="105"/>
+<rect x="440" y="65" width="40" height="135"/><rect x="485" y="115" width="52" height="85"/><rect x="540" y="85" width="60" height="115"/></g>
+<g fill="url(#w)"><rect x="45" y="70" width="40" height="130"/><rect x="140" y="50" width="36" height="150"/><rect x="245" y="80" width="42" height="120"/>
+<rect x="335" y="40" width="38" height="160"/><rect x="440" y="65" width="40" height="135"/><rect x="540" y="85" width="60" height="115"/></g>
+<rect x="150" y="38" width="16" height="3" fill="#ff4fa3"/><rect x="345" y="28" width="18" height="3" fill="#3df2ff"/>
+</svg></div>
 
+<div id="toast" role="status"></div>
 <div class="app">
 <header>
   <div class="logo">CHUNG<span>.</span>PERSONAL</div>
   <div>
-    <button class="icon-btn" id="themeBtn" aria-label="Đổi giao diện sáng/tối">☾</button>
-    <button class="icon-btn" id="adminBtn" aria-label="Khu vực quản trị">⌘</button>
+    <button class="ib" id="musicBtn" aria-label="Bật/tắt nhạc nền">♪</button>
+    <button class="ib" id="themeBtn" aria-label="Đổi giao diện">☾</button>
+    <button class="ib" id="adminBtn" aria-label="Quản trị">⌘</button>
   </div>
 </header>
 
 <main>
 <section class="page active" id="home">
-  <div class="hero">
-    <span class="spark">✦</span><span class="spark s2">✧</span>
-    <small>EPISODE 01</small>
-    <h1>Xin chào,<br>mình là Chung! <b>👋</b></h1>
+  <div class="glass hero">
+    <span class="kicker">TOKYO NIGHT · LO-FI</span>
+    <h1>Xin chào,<br>mình là <em>Chung</em></h1>
     <p>Một góc nhỏ lưu giữ hành trình, những kết nối và câu chuyện của riêng mình.</p>
-    <div class="status"><i></i>Yeosu, Hàn Quốc</div>
+    <div class="pill"><i></i>Yeosu, Hàn Quốc</div>
   </div>
-
-  <div class="section-title"><h2>Không gian của tôi</h2></div>
+  <h2 class="sec">Khám phá</h2>
   <div class="grid">
-    <button class="tile" data-go="profile"><div class="icon">🌸</div><strong>Giới thiệu</strong><small>Hành trình của Chung</small></button>
-    <button class="tile" data-go="social"><div class="icon">💫</div><strong>Kết nối</strong><small>Mạng xã hội</small></button>
-    <button class="tile" data-go="gallery"><div class="icon">📷</div><strong>Thư viện</strong><small>Khoảnh khắc</small></button>
-    <button class="tile" data-go="message"><div class="icon">💌</div><strong>Lời nhắn</strong><small>Gửi lời chào</small></button>
+    <button class="tile" data-go="profile"><span class="icon">🌙</span><strong>Giới thiệu</strong><small>Hành trình của Chung</small></button>
+    <button class="tile" data-go="social"><span class="icon">✨</span><strong>Kết nối</strong><small>Mạng xã hội</small></button>
+    <button class="tile" data-go="gallery"><span class="icon">🏙️</span><strong>Thư viện</strong><small>Khoảnh khắc</small></button>
+    <button class="tile" data-go="message"><span class="icon">💌</span><strong>Lời nhắn</strong><small>Gửi lời chào</small></button>
   </div>
-
-  <div class="section-title"><h2>Một chút về mình</h2></div>
-  <div class="card profile-row">
+  <h2 class="sec">Một chút về mình</h2>
+  <div class="card row">
     <div class="avatar" id="homeAvatar">C</div>
-    <div>
-      <h3 id="homeName">Lường Văn Chung</h3>
-      <p id="homeBio">Tốt nghiệp CNTT năm 2025 · Đang trải nghiệm cuộc sống tại Hàn Quốc.</p>
-    </div>
+    <div><h3 id="homeName">Lường Văn Chung</h3><p id="homeBio">Tốt nghiệp CNTT năm 2025 · Đang trải nghiệm cuộc sống tại Hàn Quốc.</p></div>
   </div>
 </section>
 
 <section class="page" id="profile">
-  <span class="tag">ABOUT ME</span>
-  <h1 class="page-title">Hành trình của Chung</h1>
+  <span class="kicker">ABOUT ME</span><h1 class="page-title">Hành trình của Chung</h1>
   <div class="card">
-    <div class="profile-row">
-      <div class="avatar" id="profileAvatar">C</div>
-      <div><h2 id="profileName">Lường Văn Chung</h2><p>Hồ sơ cá nhân</p></div>
-    </div>
-    <div style="margin-top:22px">
+    <div class="row"><div class="avatar" id="profileAvatar">C</div><div><h2 id="profileName">Lường Văn Chung</h2><p>Hồ sơ cá nhân</p></div></div>
+    <div style="margin-top:20px">
       <div class="info"><span>Học vấn</span><strong>Đại học Công nghệ Đông Á</strong></div>
       <div class="info"><span>Chuyên ngành</span><strong>Công nghệ thông tin</strong></div>
       <div class="info"><span>Tốt nghiệp</span><strong>2025</strong></div>
       <div class="info"><span>Hiện tại</span><strong id="profileLocation">Yeosu, Hàn Quốc</strong></div>
     </div>
   </div>
-  <div class="section-title"><h2>Giới thiệu</h2></div>
-  <div class="card bubble">
-    <p id="profileBio">Mình là Chung, tốt nghiệp ngành Công nghệ thông tin năm 2025. Hiện tại mình đang sống và làm việc tại Hàn Quốc.</p>
-  </div>
+  <h2 class="sec">Giới thiệu</h2>
+  <div class="card"><p id="profileBio" style="line-height:1.75">Mình là Chung, tốt nghiệp ngành Công nghệ thông tin năm 2025. Hiện tại mình đang sống và làm việc tại Hàn Quốc.</p></div>
 </section>
 
 <section class="page" id="social">
-  <span class="tag">LET'S CONNECT</span>
-  <h1 class="page-title">Kết nối với mình</h1>
+  <span class="kicker">LET'S CONNECT</span><h1 class="page-title">Kết nối với mình</h1>
   <div class="social-list" id="socialList"><p>Đang tải dữ liệu...</p></div>
 </section>
 
 <section class="page" id="gallery">
-  <span class="tag">MEMORIES</span>
-  <h1 class="page-title">Thư viện khoảnh khắc</h1>
+  <span class="kicker">MEMORIES</span><h1 class="page-title">Thư viện khoảnh khắc</h1>
   <div class="gallery" id="galleryList"></div>
 </section>
 
 <section class="page" id="message">
-  <span class="tag">SAY HELLO</span>
-  <h1 class="page-title">Để lại lời nhắn nhé</h1>
-  <div class="card">
-    <form id="messageForm">
-      <input id="sender" placeholder="Tên của bạn" maxlength="100" required>
-      <textarea id="content" placeholder="Viết lời nhắn..." maxlength="2000" required></textarea>
-      <button class="btn">Gửi lời nhắn 💌</button>
-    </form>
-  </div>
+  <span class="kicker">SAY HELLO</span><h1 class="page-title">Để lại lời nhắn nhé</h1>
+  <div class="card"><form id="messageForm">
+    <input id="sender" placeholder="Tên của bạn" maxlength="100" required>
+    <textarea id="content" placeholder="Viết lời nhắn..." maxlength="2000" required></textarea>
+    <button class="btn">Gửi lời nhắn 💌</button>
+  </form></div>
 </section>
 
 <section class="page" id="admin">
-  <span class="tag">PRIVATE AREA</span>
-  <h1 class="page-title">Quản trị hệ thống</h1>
+  <span class="kicker">PRIVATE AREA</span><h1 class="page-title">Quản trị hệ thống</h1>
 
   <div class="card" id="loginPanel">
-    <h3 class="admin-box" style="font-family:var(--h);margin-bottom:12px">Đăng nhập Admin</h3>
+    <h3 style="margin-bottom:12px">Đăng nhập Admin</h3>
     <form id="loginForm">
       <input type="email" id="adminEmail" placeholder="Email" required>
       <input type="password" id="adminPassword" placeholder="Mật khẩu" required>
@@ -270,8 +216,23 @@ textarea{min-height:110px;resize:vertical}
   </div>
 
   <div id="adminPanel" class="hidden">
-    <div class="card admin-box">
-      <h3>Thông tin cá nhân</h3>
+    <!-- LỜI NHẮN: luôn ở trên cùng -->
+    <div class="card">
+      <h3 style="display:flex;gap:10px;align-items:center">💌 Lời nhắn nhận được <span class="badge" id="msgCount">0</span></h3>
+      <div id="adminMessageList"></div>
+    </div>
+
+    <!-- MENU CHỌN MỤC -->
+    <h2 class="sec">Quản lý nội dung</h2>
+    <div class="menu">
+      <button class="mb" data-panel="pProfile" type="button"><span>🌙</span>Hồ sơ</button>
+      <button class="mb" data-panel="pSocial" type="button"><span>✨</span>Mạng xã hội</button>
+      <button class="mb" data-panel="pGallery" type="button"><span>🏙️</span>Thư viện</button>
+    </div>
+    <p class="hint" id="menuHint">Chọn một mục ở trên để chỉnh sửa.</p>
+
+    <div class="panel card" id="pProfile">
+      <h3 style="margin-bottom:12px">Thông tin cá nhân</h3>
       <form id="profileForm">
         <input id="editName" placeholder="Họ và tên" required>
         <textarea id="editBio" placeholder="Giới thiệu"></textarea>
@@ -281,8 +242,8 @@ textarea{min-height:110px;resize:vertical}
       </form>
     </div>
 
-    <div class="card admin-box">
-      <h3>Quản lý mạng xã hội</h3>
+    <div class="panel card" id="pSocial">
+      <h3 style="margin-bottom:12px">Mạng xã hội</h3>
       <form id="socialForm">
         <input type="hidden" id="socialId">
         <input id="socialPlatform" placeholder="Tên nền tảng" required>
@@ -295,8 +256,8 @@ textarea{min-height:110px;resize:vertical}
       <div id="adminSocialList"></div>
     </div>
 
-    <div class="card admin-box">
-      <h3>Quản lý thư viện</h3>
+    <div class="panel card" id="pGallery">
+      <h3 style="margin-bottom:12px">Thư viện</h3>
       <form id="galleryForm">
         <input id="imageUrl" type="url" placeholder="URL hình ảnh" required>
         <input id="imageDescription" placeholder="Mô tả ảnh">
@@ -305,149 +266,177 @@ textarea{min-height:110px;resize:vertical}
       <div id="adminGalleryList"></div>
     </div>
 
-    <div class="card admin-box">
-      <h3>Lời nhắn nhận được</h3>
-      <div id="adminMessageList"></div>
-    </div>
-
-    <button class="btn btn-secondary" id="refreshAdmin" type="button">Tải lại dữ liệu</button>
+    <button class="btn btn-sec" id="refreshAdmin" type="button">Tải lại dữ liệu</button>
     <button class="btn btn-danger" id="logoutBtn" type="button">Đăng xuất</button>
   </div>
 </section>
 </main>
 </div>
 
-<nav class="bottom-nav">
-  <button class="nav-btn active" data-page="home"><span>🏠</span>Trang chủ</button>
-  <button class="nav-btn" data-page="profile"><span>🌸</span>Giới thiệu</button>
-  <button class="nav-btn" data-page="social"><span>💫</span>Kết nối</button>
-  <button class="nav-btn" data-page="gallery"><span>📷</span>Thư viện</button>
-  <button class="nav-btn" data-page="message"><span>💌</span>Lời nhắn</button>
+<nav class="nav">
+  <button class="nb active" data-page="home"><span>🏠</span>Trang chủ</button>
+  <button class="nb" data-page="profile"><span>🌙</span>Giới thiệu</button>
+  <button class="nb" data-page="social"><span>✨</span>Kết nối</button>
+  <button class="nb" data-page="gallery"><span>🏙️</span>Thư viện</button>
+  <button class="nb" data-page="message"><span>💌</span>Lời nhắn</button>
 </nav>
 
 <script>
-/* ===== 1. SUPABASE ===== */
+/* ===== CẤU HÌNH ===== */
 const SUPABASE_URL="https://sslayvnyyksudnebmanl.supabase.co";
 const SUPABASE_KEY="sb_publishable_QtUCNNEVrI7zQvhGvjzH4g_GbXIvSYK";
+/* Muốn dùng bài nhạc riêng: dán link file .mp3 vào đây. Để trống = nhạc lo-fi tự tạo. */
+const MUSIC_URL="";
+
 const configured=SUPABASE_URL.startsWith("https://")&&SUPABASE_KEY.startsWith("sb_publishable_");
 const db=configured?window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY):null;
-
-/* ===== 2. TIỆN ÍCH ===== */
 const $=id=>document.getElementById(id);
 const safe=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-let toastTimer;
-function notify(msg){
-  const t=$("toast");t.textContent=msg;t.classList.add("show");
-  clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove("show"),2800);
-}
+let tt;function notify(m){const t=$("toast");t.textContent=m;t.classList.add("show");clearTimeout(tt);tt=setTimeout(()=>t.classList.remove("show"),2800)}
 function checkDB(){if(!db){notify("Bạn chưa cấu hình Supabase URL và Key!");return false}return true}
 function setAvatar(el,url,name){
-  if(url&&/^https:\/\/\S+/i.test(url)){
-    el.innerHTML=`<img src="${safe(url)}" alt="Avatar" onerror="this.parentElement.textContent='C'">`;
-  }else el.textContent=(name||"C").charAt(0).toUpperCase();
+  if(url&&/^https:\/\/\S+/i.test(url))el.innerHTML=`<img src="${safe(url)}" alt="Avatar" onerror="this.parentElement.textContent='C'">`;
+  else el.textContent=(name||"C").charAt(0).toUpperCase();
 }
 
-/* ===== 3. ĐIỀU HƯỚNG ===== */
-function showPage(page){
-  document.querySelectorAll(".page").forEach(el=>el.classList.toggle("active",el.id===page));
-  document.querySelectorAll(".nav-btn").forEach(el=>el.classList.toggle("active",el.dataset.page===page));
-  window.scrollTo({top:0,behavior:"smooth"});
+/* ===== ĐIỀU HƯỚNG ===== */
+function showPage(p){
+  document.querySelectorAll(".page").forEach(e=>e.classList.toggle("active",e.id===p));
+  document.querySelectorAll(".nb").forEach(e=>e.classList.toggle("active",e.dataset.page===p));
+  scrollTo({top:0,behavior:"smooth"});
 }
-document.querySelectorAll(".nav-btn").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.page)));
-document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.go)));
-$("adminBtn").addEventListener("click",async()=>{showPage("admin");await checkAdmin()});
+document.querySelectorAll(".nb").forEach(b=>b.onclick=()=>showPage(b.dataset.page));
+document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>showPage(b.dataset.go));
+$("adminBtn").onclick=async()=>{showPage("admin");await checkAdmin()};
+$("themeBtn").onclick=()=>{
+  document.body.classList.toggle("light");
+  const l=document.body.classList.contains("light");
+  $("themeBtn").textContent=l?"☀":"☾";
+  document.querySelector("meta[name=theme-color]").content=l?"#fff1f6":"#0b0a1f";
+};
 
-/* ===== 4. DARK MODE ===== */
-$("themeBtn").addEventListener("click",()=>{
-  document.body.classList.toggle("dark");
-  const d=document.body.classList.contains("dark");
-  $("themeBtn").textContent=d?"☀":"☾";
-  document.querySelector('meta[name=theme-color]').content=d?"#15112e":"#fff3f8";
+/* ===== MENU ADMIN ===== */
+document.querySelectorAll(".mb").forEach(b=>b.onclick=()=>{
+  const open=!b.classList.contains("active");
+  document.querySelectorAll(".mb").forEach(x=>x.classList.remove("active"));
+  document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));
+  $("menuHint").classList.toggle("hidden",open);
+  if(open){b.classList.add("active");const p=$(b.dataset.panel);p.classList.add("active");p.scrollIntoView({behavior:"smooth",block:"nearest"})}
 });
 
-/* ===== 5. HOA ANH ĐÀO RƠI ===== */
+/* ===== BẦU TRỜI SAO + SAO BĂNG ===== */
 (function(){
-  const cv=$("petals"),ctx=cv.getContext("2d");
+  const cv=$("sky"),c=cv.getContext("2d");
   if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;
-  let W,H,ps=[];
-  const resize=()=>{W=cv.width=innerWidth;H=cv.height=innerHeight};
-  resize();addEventListener("resize",resize);
-  const mk=(top)=>({x:Math.random()*W,y:top?-20:Math.random()*H,s:6+Math.random()*9,
-    vy:.5+Math.random()*1,vx:.3+Math.random()*.6,r:Math.random()*6,vr:(Math.random()-.5)*.04,
-    ph:Math.random()*6,c:Math.random()<.7?"#ffb7d5":"#ffd9ea"});
-  for(let i=0;i<(W<500?18:30);i++)ps.push(mk(false));
-  (function draw(){
-    ctx.clearRect(0,0,W,H);
-    for(const p of ps){
-      p.y+=p.vy;p.x+=p.vx+Math.sin(p.y/40+p.ph)*.6;p.r+=p.vr;
-      if(p.y>H+20||p.x>W+20){Object.assign(p,mk(true));p.x=Math.random()*W*1.2-W*.2}
-      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.r);
-      ctx.scale(1,.6+Math.abs(Math.sin(p.y/30+p.ph))*.4);
-      ctx.fillStyle=p.c;ctx.globalAlpha=.85;
-      ctx.beginPath();ctx.moveTo(0,-p.s);
-      ctx.bezierCurveTo(p.s,-p.s*.6,p.s*.8,p.s*.6,0,p.s);
-      ctx.bezierCurveTo(-p.s*.8,p.s*.6,-p.s,-p.s*.6,0,-p.s);
-      ctx.fill();ctx.restore();
+  let W,H,st=[],sh=null;
+  const rs=()=>{W=cv.width=innerWidth;H=cv.height=innerHeight;st=Array.from({length:W<500?60:110},()=>({x:Math.random()*W,y:Math.random()*H*.75,r:Math.random()*1.5+.3,p:Math.random()*6}))};
+  rs();addEventListener("resize",rs);
+  (function d(t){
+    c.clearRect(0,0,W,H);
+    const light=document.body.classList.contains("light");
+    if(!light){
+      for(const s of st){c.globalAlpha=.4+.6*Math.abs(Math.sin(t/900+s.p));c.fillStyle="#fff";c.beginPath();c.arc(s.x,s.y,s.r,0,7);c.fill()}
+      if(!sh&&Math.random()<.004)sh={x:Math.random()*W*.8+W*.2,y:Math.random()*H*.3,l:0};
+      if(sh){const g=c.createLinearGradient(sh.x,sh.y,sh.x+sh.l,sh.y-sh.l*.5);
+        g.addColorStop(0,"#fff");g.addColorStop(1,"transparent");c.globalAlpha=1;c.strokeStyle=g;c.lineWidth=2;
+        c.beginPath();c.moveTo(sh.x,sh.y);c.lineTo(sh.x+sh.l,sh.y-sh.l*.5);c.stroke();
+        sh.x-=14;sh.y+=7;sh.l=Math.min(sh.l+6,110);if(sh.x<-120||sh.y>H)sh=null}
     }
-    requestAnimationFrame(draw);
-  })();
+    requestAnimationFrame(d);
+  })(0);
 })();
 
-/* ===== 6. HỒ SƠ ===== */
+/* ===== NHẠC NỀN ===== */
+const Music=(()=>{
+  let on=false,ctx,master,audio,timer,step=0;
+  const chords=[[174.6,220,261.6,329.6],[164.8,196,246.9,293.7],[146.8,174.6,220,261.6],[130.8,164.8,196,246.9]]; // Fmaj7 Em7 Dm7 Cmaj7
+  const penta=[523.3,587.3,659.3,784,880,1046.5];
+  function tone(f,t,dur,vol,type,dest){
+    const o=ctx.createOscillator(),g=ctx.createGain();
+    o.type=type;o.frequency.value=f;
+    g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+.08);g.gain.exponentialRampToValueAtTime(.0008,t+dur);
+    o.connect(g);g.connect(dest);o.start(t);o.stop(t+dur+.1);
+  }
+  function bar(){
+    const t=ctx.currentTime+.05,ch=chords[step%4];step++;
+    ch.forEach((f,i)=>tone(f,t+i*.03,3.8,.05,"triangle",master));
+    tone(ch[0]/2,t,3.6,.12,"sine",master);
+    for(let i=0;i<4;i++)if(Math.random()<.65)tone(penta[Math.random()*6|0],t+i+Math.random()*.4,1.6,.035,"sine",master);
+    [0,1,2,3].forEach(i=>{tone(60,t+i,.25,.2,"sine",master)});
+  }
+  function start(){
+    if(MUSIC_URL){audio=audio||Object.assign(new Audio(MUSIC_URL),{loop:true,volume:.5});return audio.play().catch(()=>notify("Không phát được nhạc, kiểm tra lại link."))}
+    ctx=ctx||new(window.AudioContext||window.webkitAudioContext)();
+    if(!master){master=ctx.createGain();master.gain.value=.9;const f=ctx.createBiquadFilter();f.type="lowpass";f.frequency.value=1100;master.connect(f);f.connect(ctx.destination)}
+    ctx.resume();bar();timer=setInterval(bar,4000);
+  }
+  function stop(){if(audio)audio.pause();clearInterval(timer);if(ctx)ctx.suspend()}
+  function toggle(){on=!on;on?start():stop();$("musicBtn").classList.toggle("on",on);
+    try{localStorage.setItem("music",on?"1":"0")}catch(e){}}
+  $("musicBtn").onclick=toggle;
+  /* Trình duyệt chặn tự phát: bật nhạc ở lần chạm đầu tiên, trừ khi bạn đã tắt trước đó */
+  let want=true;try{want=localStorage.getItem("music")!=="0"}catch(e){}
+  if(want){const first=()=>{if(!on)toggle();removeEventListener("pointerdown",first)};addEventListener("pointerdown",first)}
+  return{toggle};
+})();
+
+/* ===== TẢI DỮ LIỆU ===== */
 async function loadProfile(){
   if(!checkDB())return;
   const{data,error}=await db.from("site_settings").select("*").eq("id",1).maybeSingle();
   if(error){console.error(error);notify("Lỗi tải hồ sơ: "+error.message);return}
   if(!data)return;
   const name=data.full_name||"Lường Văn Chung",bio=data.bio||"",loc=data.location||"";
-  $("homeName").textContent=name;$("profileName").textContent=name;
-  $("homeBio").textContent=bio;$("profileBio").textContent=bio;$("profileLocation").textContent=loc;
+  $("homeName").textContent=name;$("profileName").textContent=name;$("homeBio").textContent=bio;$("profileBio").textContent=bio;$("profileLocation").textContent=loc;
   setAvatar($("homeAvatar"),data.avatar_url,name);setAvatar($("profileAvatar"),data.avatar_url,name);
-  $("editName").value=data.full_name||"";$("editBio").value=data.bio||"";
-  $("editLocation").value=data.location||"";$("editAvatar").value=data.avatar_url||"";
+  $("editName").value=data.full_name||"";$("editBio").value=data.bio||"";$("editLocation").value=data.location||"";$("editAvatar").value=data.avatar_url||"";
 }
-
-/* ===== 7. MẠNG XÃ HỘI ===== */
 async function loadSocial(){
   if(!checkDB())return;
   const{data,error}=await db.from("social_links").select("*").order("sort_order");
-  if(error){console.error(error);$("socialList").innerHTML=`<p>${safe(error.message)}</p>`;return}
+  if(error){$("socialList").innerHTML=`<p>${safe(error.message)}</p>`;return}
   if(!data.length){$("socialList").innerHTML="<p>Chưa có liên kết mạng xã hội.</p>";return}
-  $("socialList").innerHTML=data.map(i=>`
-    <a class="social" href="${safe(i.url)}" target="_blank" rel="noopener noreferrer">
-      <div class="social-icon">${safe(i.icon||"↗")}</div>
-      <div class="social-info"><strong>${safe(i.platform)}</strong><small>${safe(i.username||i.url)}</small></div>
-      <span>↗</span>
-    </a>`).join("");
+  $("socialList").innerHTML=data.map(i=>`<a class="social" href="${safe(i.url)}" target="_blank" rel="noopener noreferrer">
+    <div class="s-ic">${safe(i.icon||"↗")}</div><div class="s-info"><strong>${safe(i.platform)}</strong><small>${safe(i.username||i.url)}</small></div><span>↗</span></a>`).join("");
 }
-
-/* ===== 8. THƯ VIỆN ===== */
 async function loadGallery(){
   if(!checkDB())return;
   const{data,error}=await db.from("gallery").select("*").order("created_at",{ascending:false});
-  if(error){console.error(error);$("galleryList").innerHTML=`<p>${safe(error.message)}</p>`;return}
+  if(error){$("galleryList").innerHTML=`<p>${safe(error.message)}</p>`;return}
   if(!data.length){$("galleryList").innerHTML="<p>Thư viện chưa có hình ảnh.</p>";return}
-  $("galleryList").innerHTML=data.map(i=>`
-    <div class="photo"><img src="${safe(i.image_url)}" alt="${safe(i.description||"Ảnh")}" loading="lazy">
-    <p>${safe(i.description||"Khoảnh khắc")}</p></div>`).join("");
+  $("galleryList").innerHTML=data.map(i=>`<div class="photo"><img src="${safe(i.image_url)}" alt="${safe(i.description||"Ảnh")}" loading="lazy"><p>${safe(i.description||"Khoảnh khắc")}</p></div>`).join("");
 }
 
-/* ===== 9. GỬI LỜI NHẮN ===== */
+/* ===== LỜI NHẮN ===== */
 $("messageForm").addEventListener("submit",async e=>{
   e.preventDefault();if(!checkDB())return;
   const{error}=await db.from("messages").insert({sender_name:$("sender").value.trim(),content:$("content").value.trim()});
   if(error){notify("Gửi thất bại: "+error.message);return}
   notify("Đã gửi lời nhắn thành công! 💌");e.target.reset();
 });
+async function loadMessages(){
+  const{data,error}=await db.from("messages").select("*").order("created_at",{ascending:false}).limit(100);
+  if(error){$("adminMessageList").textContent=error.message;return}
+  $("msgCount").textContent=data.length;
+  $("adminMessageList").innerHTML=data.length?data.map(m=>`<div class="a-item"><strong>${safe(m.sender_name)}</strong><p>${safe(m.content)}</p>
+    <small>${safe(m.created_at?new Date(m.created_at).toLocaleString("vi-VN"):"")}</small><br>
+    <button type="button" onclick="deleteMessage('${safe(m.id)}')">Xóa lời nhắn</button></div>`).join(""):"<p class='hint'>Chưa có lời nhắn.</p>";
+}
+async function deleteMessage(id){
+  if(!confirm("Xóa lời nhắn này?"))return;
+  const{error}=await db.from("messages").delete().eq("id",id);
+  if(error){notify(error.message);return}
+  notify("Đã xóa lời nhắn!");await loadMessages();
+}
 
-/* ===== 10. ĐĂNG NHẬP ADMIN ===== */
+/* ===== ADMIN ===== */
 async function checkAdmin(){
   if(!checkDB())return false;
   const{data:{user}}=await db.auth.getUser();
-  const showLogin=()=>{$("loginPanel").classList.remove("hidden");$("adminPanel").classList.add("hidden")};
-  if(!user){showLogin();return false}
+  const login=()=>{$("loginPanel").classList.remove("hidden");$("adminPanel").classList.add("hidden")};
+  if(!user){login();return false}
   const{data,error}=await db.from("admin_users").select("user_id").eq("user_id",user.id).maybeSingle();
-  if(error||!data){await db.auth.signOut();showLogin();notify("Tài khoản chưa được cấp quyền Admin!");return false}
+  if(error||!data){await db.auth.signOut();login();notify("Tài khoản chưa được cấp quyền Admin!");return false}
   $("loginPanel").classList.add("hidden");$("adminPanel").classList.remove("hidden");
   await loadAdminData();return true;
 }
@@ -457,35 +446,26 @@ $("loginForm").addEventListener("submit",async e=>{
   if(error){notify("Đăng nhập thất bại: "+error.message);return}
   await checkAdmin();
 });
-
-/* ===== 11. LƯU HỒ SƠ ===== */
 $("profileForm").addEventListener("submit",async e=>{
   e.preventDefault();if(!checkDB())return;
-  const{error}=await db.from("site_settings").upsert({
-    id:1,full_name:$("editName").value.trim(),bio:$("editBio").value.trim(),
-    location:$("editLocation").value.trim(),avatar_url:$("editAvatar").value.trim()||null,
-    updated_at:new Date().toISOString()},{onConflict:"id"});
+  const{error}=await db.from("site_settings").upsert({id:1,full_name:$("editName").value.trim(),bio:$("editBio").value.trim(),
+    location:$("editLocation").value.trim(),avatar_url:$("editAvatar").value.trim()||null,updated_at:new Date().toISOString()},{onConflict:"id"});
   if(error){notify("Lỗi: "+error.message);return}
   notify("Đã cập nhật hồ sơ!");await loadProfile();
 });
-
-/* ===== 12. MẠNG XÃ HỘI (ADMIN) ===== */
 $("socialForm").addEventListener("submit",async e=>{
   e.preventDefault();if(!checkDB())return;
   const id=$("socialId").value;
-  const record={platform:$("socialPlatform").value.trim(),username:$("socialUsername").value.trim(),
-    url:$("socialUrl").value.trim(),icon:$("socialIcon").value.trim(),sort_order:Number($("socialOrder").value||0)};
-  const r=id?await db.from("social_links").update(record).eq("id",id):await db.from("social_links").insert(record);
+  const rec={platform:$("socialPlatform").value.trim(),username:$("socialUsername").value.trim(),url:$("socialUrl").value.trim(),icon:$("socialIcon").value.trim(),sort_order:Number($("socialOrder").value||0)};
+  const r=id?await db.from("social_links").update(rec).eq("id",id):await db.from("social_links").insert(rec);
   if(r.error){notify("Lỗi: "+r.error.message);return}
-  notify("Đã lưu liên kết!");e.target.reset();$("socialId").value="";$("socialOrder").value="0";
-  await loadAdminData();
+  notify("Đã lưu liên kết!");e.target.reset();$("socialId").value="";$("socialOrder").value="0";await loadAdminData();
 });
 async function editSocial(id){
   const{data,error}=await db.from("social_links").select("*").eq("id",id).single();
   if(error){notify(error.message);return}
-  $("socialId").value=data.id;$("socialPlatform").value=data.platform||"";
-  $("socialUsername").value=data.username||"";$("socialUrl").value=data.url||"";
-  $("socialIcon").value=data.icon||"";$("socialOrder").value=data.sort_order??0;
+  $("socialId").value=data.id;$("socialPlatform").value=data.platform||"";$("socialUsername").value=data.username||"";
+  $("socialUrl").value=data.url||"";$("socialIcon").value=data.icon||"";$("socialOrder").value=data.sort_order??0;
   $("socialPlatform").scrollIntoView({behavior:"smooth",block:"center"});
 }
 async function deleteSocial(id){
@@ -494,8 +474,6 @@ async function deleteSocial(id){
   if(error){notify(error.message);return}
   notify("Đã xóa!");await loadAdminData();
 }
-
-/* ===== 13. THƯ VIỆN (ADMIN) ===== */
 $("galleryForm").addEventListener("submit",async e=>{
   e.preventDefault();if(!checkDB())return;
   const{error}=await db.from("gallery").insert({image_url:$("imageUrl").value.trim(),description:$("imageDescription").value.trim()});
@@ -508,57 +486,29 @@ async function deletePhoto(id){
   if(error){notify(error.message);return}
   notify("Đã xóa ảnh!");await loadAdminData();
 }
-
-/* ===== 14. LỜI NHẮN (ADMIN) ===== */
-async function loadMessages(){
-  const{data,error}=await db.from("messages").select("*").order("created_at",{ascending:false}).limit(100);
-  if(error){$("adminMessageList").textContent=error.message;return}
-  $("adminMessageList").innerHTML=data.length?data.map(m=>`
-    <div class="admin-item"><strong>${safe(m.sender_name)}</strong><p>${safe(m.content)}</p>
-    <small>${safe(m.created_at||"")}</small><br>
-    <button type="button" onclick="deleteMessage('${safe(m.id)}')">Xóa lời nhắn</button></div>`).join(""):"<p>Chưa có lời nhắn.</p>";
-}
-async function deleteMessage(id){
-  if(!confirm("Xóa lời nhắn này?"))return;
-  const{error}=await db.from("messages").delete().eq("id",id);
-  if(error){notify(error.message);return}
-  notify("Đã xóa lời nhắn!");await loadMessages();
-}
-
-/* ===== 15. DỮ LIỆU ADMIN ===== */
 async function loadAdminData(){
   await Promise.all([loadProfile(),loadSocial(),loadGallery(),loadMessages()]);
-  const{data:socials}=await db.from("social_links").select("*").order("sort_order");
-  $("adminSocialList").innerHTML=socials?.length?socials.map(s=>`
-    <div class="admin-item"><strong>${safe(s.platform)}</strong><p>${safe(s.url)}</p>
-    <button type="button" onclick="editSocial('${safe(s.id)}')">Sửa</button>
-    <button type="button" onclick="deleteSocial('${safe(s.id)}')">Xóa</button></div>`).join(""):"<p>Chưa có liên kết.</p>";
-  const{data:photos}=await db.from("gallery").select("*").order("created_at",{ascending:false});
-  $("adminGalleryList").innerHTML=photos?.length?photos.map(p=>`
-    <div class="admin-item"><strong>${safe(p.description||"Hình ảnh")}</strong>
-    <button type="button" onclick="deletePhoto('${safe(p.id)}')">Xóa ảnh</button></div>`).join(""):"<p>Chưa có hình ảnh.</p>";
+  const{data:s}=await db.from("social_links").select("*").order("sort_order");
+  $("adminSocialList").innerHTML=s?.length?s.map(x=>`<div class="a-item"><strong>${safe(x.platform)}</strong><p>${safe(x.url)}</p>
+    <button type="button" onclick="editSocial('${safe(x.id)}')">Sửa</button><button type="button" onclick="deleteSocial('${safe(x.id)}')">Xóa</button></div>`).join(""):"<p class='hint'>Chưa có liên kết.</p>";
+  const{data:p}=await db.from("gallery").select("*").order("created_at",{ascending:false});
+  $("adminGalleryList").innerHTML=p?.length?p.map(x=>`<div class="a-item"><strong>${safe(x.description||"Hình ảnh")}</strong><br>
+    <button type="button" onclick="deletePhoto('${safe(x.id)}')">Xóa ảnh</button></div>`).join(""):"<p class='hint'>Chưa có hình ảnh.</p>";
 }
-
-/* ===== 16. ĐĂNG XUẤT ===== */
-$("logoutBtn").addEventListener("click",async()=>{
+$("logoutBtn").onclick=async()=>{
   const{error}=await db.auth.signOut();
   if(error){notify(error.message);return}
-  $("adminPanel").classList.add("hidden");$("loginPanel").classList.remove("hidden");
-  notify("Đã đăng xuất!");
-});
-$("refreshAdmin").addEventListener("click",loadAdminData);
+  $("adminPanel").classList.add("hidden");$("loginPanel").classList.remove("hidden");notify("Đã đăng xuất!");
+};
+$("refreshAdmin").onclick=loadAdminData;
 
-/* ===== 17. KHỞI ĐỘNG ===== */
-async function init(){
-  if(!configured){
-    $("socialList").innerHTML="<p>Hãy cấu hình Supabase URL và Key.</p>";
-    $("galleryList").innerHTML="<p>Chưa cấu hình Supabase.</p>";return;
-  }
+/* ===== KHỞI ĐỘNG ===== */
+(async function init(){
+  if(!configured){$("socialList").innerHTML="<p>Hãy cấu hình Supabase URL và Key.</p>";$("galleryList").innerHTML="<p>Chưa cấu hình Supabase.</p>";return}
   await Promise.all([loadProfile(),loadSocial(),loadGallery()]);
   const{data:{session}}=await db.auth.getSession();
   if(session)await checkAdmin();
-}
-init();
+})();
 </script>
 </body>
 </html>
